@@ -1,5 +1,6 @@
 package com.example.auth.controller;
 
+import com.example.auth.model.Customer;
 import com.example.auth.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
