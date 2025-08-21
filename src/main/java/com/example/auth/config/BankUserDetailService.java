@@ -1,6 +1,5 @@
 package com.example.auth.config;
 
-import com.example.auth.model.Customer;
 import com.example.auth.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
