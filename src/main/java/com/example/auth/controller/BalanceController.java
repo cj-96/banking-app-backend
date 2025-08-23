@@ -1,7 +1,7 @@
 package com.example.auth.controller;
 
 import com.example.auth.model.AccountTransactions;
-import com.example.auth.repository.AccountTransactionsRepository;
+import com.example.auth.service.BalanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,12 +13,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BalanceController {
 
-    private final AccountTransactionsRepository accountTransactionsRepository;
+    private final BalanceService balanceService;
 
     @GetMapping("/myBalance")
-    public List<AccountTransactions> getBalanceDetails(@RequestParam long id) {
-        List<AccountTransactions> accountTransactions = accountTransactionsRepository.
-                findByCustomerIdOrderByTransactionDtDesc(id);
+    public List<AccountTransactions> retreiveByCustomerId(@RequestParam long id) {
+        List<AccountTransactions> accountTransactions = balanceService.
+                retreiveByCustomerId(id);
         if (accountTransactions != null) {
             return accountTransactions;
         } else {

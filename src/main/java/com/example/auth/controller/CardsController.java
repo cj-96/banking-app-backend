@@ -2,6 +2,7 @@ package com.example.auth.controller;
 
 import com.example.auth.model.Cards;
 import com.example.auth.repository.CardsRepository;
+import com.example.auth.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardsController {
 
-    private final CardsRepository cardsRepository;
+    private final CardService cardService;
 
     @GetMapping("/myCards")
-    public List<Cards> getCardDetails(@RequestParam long id) {
-        List<Cards> cards = cardsRepository.findByCustomerId(id);
+    public List<Cards> retrieveByCustomerId(@RequestParam long id) {
+        List<Cards> cards = cardService.retrieveByCustomerId(id);
         if (cards != null ) {
             return cards;
         }else {

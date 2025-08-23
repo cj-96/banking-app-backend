@@ -1,11 +1,11 @@
 package com.example.auth.service.impl;
 
-import com.example.auth.exceptionhandling.CardException;
-import com.example.auth.exceptionhandling.InternalServerException;
 import com.example.auth.exceptionhandling.InvalidCustomerIdException;
-import com.example.auth.model.Cards;
-import com.example.auth.repository.CardsRepository;
-import com.example.auth.service.CardService;
+import com.example.auth.exceptionhandling.InternalServerException;
+import com.example.auth.exceptionhandling.LoanException;
+import com.example.auth.model.Loans;
+import com.example.auth.repository.LoanRepository;
+import com.example.auth.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,37 +17,37 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CardServiceImpl implements CardService {
+public class LoanServiceImpl implements LoanService {
 
-    private final CardsRepository cardsRepository;
+    private final LoanRepository loanRepository;
 
     @Override
-    public List<Cards> retrieveByCustomerId(long id) {
-        log.debug("Attempting to retrieve cards for customer ID: {}", id);
+    public List<Loans> persistByCustomerId(long id) {
+        log.debug("Attempting to retrieve loans for customer ID: {}", id);
 
         // Input validation
         validateCustomerId(id);
 
         try {
-            List<Cards> cards = cardsRepository.findByCustomerId(id);
+            List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(id);
 
-            if (cards == null || cards.isEmpty()) {
-                log.warn("No cards found for customer ID: {}", id);
-                throw new CardException(
-                        String.format("No cards found for customer ID: %d", id)
+            if (loans == null || loans.isEmpty()) {
+                log.warn("No loans found for customer ID: {}", id);
+                throw new LoanException(
+                        String.format("No loans found for customer ID: %d", id)
                 );
             }
 
-            log.debug("Successfully retrieved {} cards for customer ID: {}", cards.size(), id);
-            return cards;
+            log.debug("Successfully retrieved {} loans for customer ID: {}", loans.size(), id);
+            return loans;
 
-        } catch (CardException e) {
+        } catch (LoanException e) {
             // Re-throw business exceptions
             throw e;
         } catch (Exception e) {
-            log.error("Unexpected error occurred while retrieving cards for customer ID: {}", id, e);
+            log.error("Unexpected error occurred while retrieving loans for customer ID: {}", id, e);
             throw new InternalServerException(
-                    String.format("Unexpected error occurred while retrieving cards for customer ID: %d", id)
+                    String.format("Unexpected error occurred while retrieving loans for customer ID: %d", id)
             );
         }
     }
@@ -65,4 +65,5 @@ public class CardServiceImpl implements CardService {
             );
         }
     }
+
 }

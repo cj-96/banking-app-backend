@@ -1,7 +1,7 @@
 package com.example.auth.controller;
 
 import com.example.auth.model.Notice;
-import com.example.auth.repository.NoticeRepository;
+import com.example.auth.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +13,13 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
-public class NoticesController {
+public class NoticeController {
 
-    private final NoticeRepository noticeRepository;
+    private final NoticeService noticeService;
 
     @GetMapping("/notices")
-    public ResponseEntity<List<Notice>> getNotices() {
-        List<Notice> notices = noticeRepository.findAllActiveNotices();
+    public ResponseEntity<List<Notice>> retrieveAll() {
+        List<Notice> notices = noticeService.retrieveAll();
         if (notices != null) {
             return ResponseEntity.ok()
                     .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
