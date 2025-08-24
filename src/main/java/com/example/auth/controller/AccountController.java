@@ -1,7 +1,7 @@
 package com.example.auth.controller;
 
 import com.example.auth.model.Accounts;
-import com.example.auth.repository.AccountsRepository;
+import com.example.auth.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountsRepository accountsRepository;
+    private final AccountService accountsService;
 
     @GetMapping("/myAccount")
-    public Accounts getAccountDetails(@RequestParam long id) {
-        Accounts accounts = accountsRepository.findByCustomerId(id);
+    public Accounts retriveByCustomerId(@RequestParam long id) {
+        Accounts accounts = accountsService.retriveByCustomerId(id);
         if (accounts != null) {
             return accounts;
         } else {

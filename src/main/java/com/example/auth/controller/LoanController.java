@@ -1,7 +1,7 @@
 package com.example.auth.controller;
 
 import com.example.auth.model.Loans;
-import com.example.auth.repository.LoanRepository;
+import com.example.auth.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,13 +11,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class LoansController {
+public class LoanController {
 
-    private final LoanRepository loanRepository;
+    private final LoanService loanService;
 
     @GetMapping("/myLoans")
-    public List<Loans> getLoanDetails(@RequestParam long id) {
-        List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(id);
+    public List<Loans> persistByCustomerId(@RequestParam long id) {
+        List<Loans> loans = loanService.persistByCustomerId(id);
         if (loans != null) {
             return loans;
         } else {

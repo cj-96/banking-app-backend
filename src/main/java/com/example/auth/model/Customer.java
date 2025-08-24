@@ -10,8 +10,7 @@ import java.sql.Date;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 public class Customer {
 
     @Id
