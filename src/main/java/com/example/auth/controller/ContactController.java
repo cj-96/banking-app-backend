@@ -1,14 +1,21 @@
 package com.example.auth.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.auth.model.Contact;
+import com.example.auth.service.ContactService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class ContactController {
 
-    @GetMapping("/contact")
-    public String getContactDetails(){
-        return "Here are the contact details from the database";
+    private final ContactService contactService;
+
+    @PostMapping("/contact")
+    public Contact persist(@RequestBody Contact contact) {
+        return contactService.persist(contact);
     }
 }
 
